@@ -35,7 +35,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 2rem;
 }
 
 .flex {
@@ -192,7 +192,7 @@ body {
 
 /* ===== HERO SECTION ===== */
 .hero {
-    padding: 100px 0;
+    padding: 2rem;
     background-color: var(--bg-light);
 }
 
@@ -253,7 +253,7 @@ body {
 
 /* ===== FEATURES SECTION ===== */
 .features {
-    padding: 100px 0;
+    padding: 2rem;
     background-color: var(--bg-features);
 }
 
@@ -307,7 +307,7 @@ body {
 
 /* ===== HOW IT WORKS SECTION ===== */
 .how-it-works {
-    padding: 100px 0;
+    padding: 2rem;
     background-color: var(--white);
 }
 
@@ -376,7 +376,7 @@ body {
 
 /* ===== CTA BANNER ===== */
 .cta-banner {
-    padding: 80px 0;
+    padding: 2rem;
     background-color: var(--dark-bg);
     text-align: center;
 }
@@ -408,7 +408,7 @@ body {
 footer {
     background-color: var(--white);
     border-top: 1px solid var(--border);
-    padding: 40px 0;
+    padding: 2rem;
 }
 
 .footer-content {
@@ -537,6 +537,6 @@ footer {
     .features,
     .how-it-works,
     .cta-banner {
-        padding: 60px 0;
+        padding: 2rem;
     }
 }

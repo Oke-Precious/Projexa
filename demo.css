@@ -40,6 +40,9 @@ body {
     align-items: center;
     justify-content: space-between;
 }
+.navbar-logo img {
+    height: 32px;
+}
 
 .navbar-logo {
     font-size: 1.5rem;
@@ -92,7 +95,7 @@ body {
 /* ===== HERO SECTION ===== */
 .hero {
     margin-top: 80px;
-    padding: 6rem 2rem;
+    padding: 2rem;
     text-align: center;
     min-height: 100vh;
     display: flex;
@@ -150,6 +153,7 @@ body {
     justify-content: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
                 inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
 }
 
 .play-button {
@@ -182,7 +186,7 @@ body {
 
 /* ===== FEATURES SECTION ===== */
 .features {
-    padding: 6rem 2rem;
+    padding: 2rem;
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -229,6 +233,7 @@ body {
                 inset 0 1px 1px rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     cursor: move;
+    position: relative;
 }
 
 .kanban-card:hover {
@@ -439,7 +444,7 @@ body {
 
 /* ===== JOURNEY SECTION ===== */
 .journey {
-    padding: 6rem 2rem;
+    padding: 2rem;
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -542,7 +547,7 @@ body {
 
 /* ===== CTA SECTION ===== */
 .cta-section {
-    padding: 6rem 2rem;
+    padding: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -703,7 +708,7 @@ body {
     }
 
     .features {
-        padding: 4rem 1rem;
+        padding: 2rem;
     }
 
     .feature-title {
@@ -715,7 +720,7 @@ body {
     }
 
     .journey {
-        padding: 4rem 1rem;
+        padding: 2rem;
     }
 
     .section-title {
@@ -745,7 +750,7 @@ body {
     }
 
     .cta-section {
-        padding: 4rem 1rem;
+        padding: 2rem;
         min-height: auto;
     }
 
