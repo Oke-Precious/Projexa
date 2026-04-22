@@ -78,6 +78,9 @@ body {
     font-size: 18px;
     color: var(--text-dark);
 }
+.navbar-logo img {
+    height: 32px;
+}
 
 .navbar-nav {
     display: flex;
