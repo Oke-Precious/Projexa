@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projexa | Product Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./demo.css">
+    <link rel="icon" href="./media/projexa.png">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">Projexa</div>
+            <div class="navbar-links">
+                <a href="#features">Features</a>
+                <a href="#demo">Demo</a>
+                <a href="#journey">How it Works</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+            <button class="btn-get-started">Get Started</button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Master <span class="gradient-text">Precision</span> in Project Management
+            </h1>
+            <p class="hero-subtitle">Experience the future of atmospheric workspace collaboration</p>
+            
+            <div class="video-player">
+                <div class="play-button">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                </div>
+                <div class="video-placeholder">
+                    <div class="video-text">Watch Product Demo</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURE GRID -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <!-- Left: Atmospheric Kanban -->
+            <div class="feature-column">
+                <h2 class="feature-title">Atmospheric Kanban</h2>
+                <p class="feature-description">Visualize your workflow with intuitive drag-and-drop cards</p>
+                
+                <div class="kanban-cards">
+                    <div class="kanban-card card-todo">
+                        <div class="card-header">
+                            <span class="card-tag">To Do</span>
+                        </div>
+                        <p class="card-title">Design new landing page</p>
+                        <div class="card-footer">
+                            <span class="card-assignee">@alice</span>
+                        </div>
+                    </div>
+
+                    <div class="kanban-card card-progress">
+                        <div class="card-header">
+                            <span class="card-tag">In Progress</span>
+                        </div>
+                        <p class="card-title">Review pull requests</p>
+                        <div class="card-footer">
+                            <span class="card-assignee">@bob</span>
+                        </div>
+                    </div>
+
+                    <div class="kanban-card card-done">
+                        <div class="card-header">
+                            <span class="card-tag">Done</span>
+                        </div>
+                        <p class="card-title">Deploy v4.0 release</p>
+                        <div class="card-footer">
+                            <span class="card-assignee">@charlie</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Seamless Collaboration -->
+            <div class="feature-column">
+                <h2 class="feature-title">Seamless Collaboration</h2>
+                <p class="feature-description">Real-time updates and team presence indicators</p>
+                
+                <div class="activity-feed">
+                    <div class="activity-item">
+                        <div class="activity-avatar avatar-1">A</div>
+                        <div class="activity-content">
+                            <p class="activity-name">Alice Chen</p>
+                            <p class="activity-action">completed <strong>Design Review</strong></p>
+                            <p class="activity-time">2 minutes ago</p>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-avatar avatar-2">B</div>
+                        <div class="activity-content">
+                            <p class="activity-name">Bob Martinez</p>
+                            <p class="activity-action">commented on <strong>API Integration</strong></p>
+                            <p class="activity-time">15 minutes ago</p>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-avatar avatar-3">C</div>
+                        <div class="activity-content">
+                            <p class="activity-name">Charlie Park</p>
+                            <p class="activity-action">started <strong>Quality Assurance</strong></p>
+                            <p class="activity-time">1 hour ago</p>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-avatar avatar-4">D</div>
+                        <div class="activity-content">
+                            <p class="activity-name">Diana Patel</p>
+                            <p class="activity-action">deployed to <strong>Production</strong></p>
+                            <p class="activity-time">3 hours ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Card -->
+        <div class="analytics-card" id="demo">
+            <div class="analytics-header">
+                <h3>Live Analytics</h3>
+                <p>Project completion rates over the past 30 days</p>
+            </div>
+            <div class="bar-chart">
+                <div class="chart-bar">
+                    <div class="bar" style="height: 40%"></div>
+                    <span class="bar-label">Week 1</span>
+                </div>
+                <div class="chart-bar">
+                    <div class="bar" style="height: 60%"></div>
+                    <span class="bar-label">Week 2</span>
+                </div>
+                <div class="chart-bar">
+                    <div class="bar" style="height: 75%"></div>
+                    <span class="bar-label">Week 3</span>
+                </div>
+                <div class="chart-bar">
+                    <div class="bar" style="height: 85%"></div>
+                    <span class="bar-label">Week 4</span>
+                </div>
+                <div class="chart-bar">
+                    <div class="bar" style="height: 95%"></div>
+                    <span class="bar-label">Week 5</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- USER JOURNEY SECTION -->
+    <section class="journey" id="journey">
+        <h2 class="section-title">How It Works</h2>
+        <div class="journey-steps">
+            <div class="journey-card">
+                <div class="step-number">1</div>
+                <h3>Create Workspace</h3>
+                <p>Set up your team's digital environment in seconds with smart templates</p>
+                <div class="step-icon">🚀</div>
+            </div>
+
+            <div class="journey-connector"></div>
+
+            <div class="journey-card">
+                <div class="step-number">2</div>
+                <h3>Invite Team</h3>
+                <p>Onboard collaborators and assign roles with granular permissions</p>
+                <div class="step-icon">👥</div>
+            </div>
+
+            <div class="journey-connector"></div>
+
+            <div class="journey-card">
+                <div class="step-number">3</div>
+                <h3>Ship Faster</h3>
+                <p>Accelerate delivery with atmospheric focus and precision tracking</p>
+                <div class="step-icon">⚡</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Ready to Transform Your Workflow?</h2>
+            <p>Join thousands of teams already using Projexa for atmospheric precision</p>
+            <button class="btn-trial">Start Your Free Trial</button>
+            <p class="cta-footnote">No credit card required. 14-day free trial.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Projexa. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy</a>
+                <a href="#terms">Terms</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
