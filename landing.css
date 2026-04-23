@@ -79,7 +79,7 @@ body {
     color: var(--text-dark);
 }
 .navbar-logo img {
-    height: 32px;
+    height: 50px;
 }
 
 .navbar-nav {
@@ -126,11 +126,15 @@ body {
     color: var(--text-dark);
     font-weight: 500;
     font-size: 14px;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    padding: 8px 16px;
+    border-radius: var(--border-radius-pill);
 }
 
 .navbar-login:hover {
     color: var(--primary);
+    transform: translateX(4px);
+    background-color: rgba(70, 72, 212, 0.1);
 }
 
 /* ===== BUTTONS ===== */
@@ -241,7 +245,6 @@ body {
 }
 
 .hero-image {
-    background-color: var(--dark-bg);
     border-radius: 16px;
     height: 340px;
     display: flex;
@@ -250,7 +253,11 @@ body {
     color: rgba(255, 255, 255, 0.5);
     font-size: 16px;
 }
-
+.hero-image img{
+    width: 100%;
+    /* height: 100%; */
+    /* object-fit: contain; */
+}
 /* ===== FEATURES SECTION ===== */
 .features {
     padding: 2rem;
@@ -376,15 +383,9 @@ body {
     line-height: 1.8;
 }
 
-.how-it-works-image {
-    background-color: var(--dark-bg);
-    border-radius: 16px;
-    height: 340px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 16px;
+
+.how-it-works-image img{
+    width: 100%;
 }
 
 /* ===== CTA BANNER ===== */
@@ -474,7 +475,9 @@ footer {
     .navbar-actions {
         gap: 12px;
     }
-
+    .navbar-logo img {
+    height: 32px;
+    }
     /* Hero */
     .hero-content {
         grid-template-columns: 1fr;
