@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Projexa - Sign In</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Design System Theme Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#767586",
+                        "on-secondary-container": "#fffbff",
+                        "on-secondary-fixed": "#23005c",
+                        "on-tertiary-container": "#f9fdff",
+                        "on-tertiary-fixed": "#001f26",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e5eeff",
+                        "tertiary-fixed": "#acedff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-tint": "#494bd6",
+                        "background": "#f8f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#e1e0ff",
+                        "primary-container": "#6063ee",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-fixed": "#e9ddff",
+                        "on-primary-fixed": "#07006c",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-fixed-dim": "#4cd7f6",
+                        "inverse-primary": "#c0c1ff",
+                        "secondary-container": "#8455ef",
+                        "on-surface-variant": "#464554",
+                        "on-background": "#0b1c30",
+                        "tertiary-container": "#008096",
+                        "primary": "#4648d4",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#006577",
+                        "secondary": "#6b38d4",
+                        "outline-variant": "#c7c4d7",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "inverse-surface": "#213145",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-tertiary-fixed-variant": "#004e5c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {},
+                    "fontFamily": {
+                        "headline": [
+                            "Inter", "sans-serif"
+                        ],
+                        "body": [
+                            "Inter", "sans-serif"
+                        ],
+                        "label": [
+                            "Inter", "sans-serif"
+                        ]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom utilities matching Design System specifics that exceed basic Tailwind */
+        .ambient-shadow-side {
+            box-shadow: -16px 0 48px -4px rgba(11, 28, 48, 0.06);
+        }
+
+        .ambient-shadow-float {
+            box-shadow: 0 16px 48px -4px rgba(11, 28, 48, 0.06);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background font-body text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed h-screen overflow-hidden flex">
+    <!-- Left Visual Panel (Abstract Atmosphere) -->
+    <div class="hidden lg:block lg:w-[55%] relative overflow-hidden bg-surface-container-low">
+        <!-- Abstract Structural Background Image fitting 'Master Build' -->
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&amp;w=2940&amp;auto=format&amp;fit=crop')] bg-cover bg-center"
+            data-alt="abstract architectural 3D rendering with overlapping translucent glass panels and geometric structures illuminated by deep violet and electric blue neon lighting, creating high-end editorial tech depth and atmospheric precision">
+        </div>
+        <!-- Atmospheric Overlays -->
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/30 to-background/90 mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-background/20 to-surface-container-lowest">
+        </div>
+        <!-- Floating Decorative Element (Glassmorphism) -->
+        <div
+            class="absolute bottom-16 left-16 p-8 rounded-2xl bg-surface/10 backdrop-blur-2xl border border-surface-lowest/20 w-96 ambient-shadow-float">
+            <h2 class="font-headline text-[2rem] font-bold tracking-tight text-white leading-tight mb-3">Precision
+                in<br />every structure.</h2>
+            <p class="text-white/80 font-body text-[0.875rem] leading-relaxed">Experience a workspace designed to reduce
+                cognitive load and elevate management into an art form.</p>
+        </div>
+    </div>
+    <!-- Right Form Panel (Interactive Zone) -->
+    <div
+        class="w-full lg:w-[45%] h-full bg-surface-container-lowest relative z-10 ambient-shadow-side flex flex-col justify-center overflow-y-auto">
+        <div class="w-full max-w-[440px] mx-auto px-8 sm:px-12 py-12">
+            <!-- Brand Anchor -->
+            <div class="flex items-center gap-3 mb-12 md:mt-16 group cursor-pointer">
+                <!-- <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center shadow-[0_4px_14px_0_rgba(70,72,212,0.3)] group-hover:scale-105 transition-transform duration-300">
+                </div> -->
+                 <img src="./media/projexalgo.png" alt=""  srcset="" style="height: 32px;">
+            </div>
+            <!-- Header -->
+            <div class="mb-10">
+                <h2 class="font-headline text-[2rem] font-bold tracking-tight text-on-surface mb-2">Welcome back</h2>
+                <p class="font-body text-[0.875rem] text-on-surface-variant">Please enter your details to access your
+                    workspace.</p>
+            </div>
+            <!-- Form -->
+            <form action="#" class="space-y-5" method="POST">
+                <!-- Email Input -->
+                <div class="space-y-1.5">
+                    <label
+                        class="block font-label text-[0.6875rem] font-medium text-on-surface-variant uppercase tracking-widest pl-1"
+                        for="email">Email Address</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-on-surface-variant/60 text-[20px]">mail</span>
+                        </span>
+                        <!-- No Border, Soft Focus logic applied -->
+                        <input autocomplete="email"
+                            class="block w-full pl-11 pr-4 py-3.5 bg-surface-container-highest text-on-surface font-body text-[0.875rem] rounded-xl border-transparent focus:border-transparent focus:ring-2 focus:ring-primary/40 focus:bg-primary-fixed transition-all duration-200 placeholder:text-on-surface-variant/50"
+                            id="email" name="email" placeholder="name@company.com" required="" type="email" />
+                    </div>
+                </div>
+                <!-- Password Input -->
+                <div class="space-y-1.5 pt-1">
+                    <div class="flex items-center justify-between pl-1">
+                        <label
+                            class="block font-label text-[0.6875rem] font-medium text-on-surface-variant uppercase tracking-widest"
+                            for="password">Password</label>
+                        <a class="font-label text-[0.75rem] font-medium text-primary hover:text-primary-container transition-colors"
+                            href="#">Forgot password?</a>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-on-surface-variant/60 text-[20px]">lock</span>
+                        </span>
+                        <input autocomplete="current-password"
+                            class="block w-full pl-11 pr-4 py-3.5 bg-surface-container-highest text-on-surface font-body text-[0.875rem] rounded-xl border-transparent focus:border-transparent focus:ring-2 focus:ring-primary/40 focus:bg-primary-fixed transition-all duration-200 placeholder:text-on-surface-variant/50"
+                            id="password" name="password" placeholder="••••••••" required="" type="password" />
+                    </div>
+                </div>
+                <!-- Remember Me -->
+                <div class="flex items-center pt-2 pb-4">
+                    <input
+                        class="h-4 w-4 rounded-sm bg-surface-container-highest border-transparent text-primary focus:ring-2 focus:ring-primary/40 focus:ring-offset-0 cursor-pointer transition-colors"
+                        id="remember-me" name="remember-me" type="checkbox" />
+                    <label class="ml-3 block font-body text-[0.875rem] text-on-surface-variant cursor-pointer"
+                        for="remember-me">
+                        Remember me for 30 days
+                    </label>
+                </div>
+                <!-- Primary CTA -->
+                <button
+                    class="w-full flex justify-center py-4 px-4 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-semibold text-[0.875rem] tracking-wide shadow-[0_8px_20px_-6px_rgba(70,72,212,0.4)] hover:scale-[1.02] hover:shadow-[0_12px_28px_-6px_rgba(70,72,212,0.5)] transition-all duration-300"
+                    type="submit">
+                    Sign In
+                </button>
+            </form>
+            <!-- Divider Strategy (No 1px lines) -->
+            <div class="mt-10 mb-8 flex items-center justify-center">
+                <span
+                    class="px-4 font-label text-[0.6875rem] font-medium text-on-surface-variant/60 uppercase tracking-widest bg-surface-container-low rounded-full py-1.5">
+                    Or continue with
+                </span>
+            </div>
+            <!-- Secondary Actions (Social) -->
+            <div class="grid grid-cols-2 gap-4">
+                <button
+                    class="flex items-center justify-center w-full px-4 py-3.5 rounded-xl bg-surface-container-highest text-on-surface font-headline font-medium text-[0.875rem] hover:bg-surface-variant hover:scale-[1.02] transition-all duration-200"
+                    type="button">
+                    <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                            fill="#4285F4"></path>
+                        <path
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                            fill="#34A853"></path>
+                        <path
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                            fill="#FBBC05"></path>
+                        <path
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                            fill="#EA4335"></path>
+                    </svg>
+                    Google
+                </button>
+                <button
+                    class="flex items-center justify-center w-full px-4 py-3.5 rounded-xl bg-surface-container-highest text-on-surface font-headline font-medium text-[0.875rem] hover:bg-surface-variant hover:scale-[1.02] transition-all duration-200"
+                    type="button">
+                    <svg class="w-5 h-5 mr-2.5 text-[#24292F]" fill="currentColor" viewbox="0 0 24 24">
+                        <path clip-rule="evenodd"
+                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                            fill-rule="evenodd"></path>
+                    </svg>
+                    GitHub
+                </button>
+            </div>
+            <!-- Footer Link -->
+            <p class="mt-12 text-center font-body text-[0.875rem] text-on-surface-variant">
+                Don't have an account?
+                <a class="font-headline font-semibold text-primary hover:text-primary-container transition-colors ml-1"
+                    href="#">Sign Up</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
