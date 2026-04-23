@@ -108,24 +108,37 @@ function initMobileMenu() {
 }
 
 /* ========================================
-   Loads YouTube video on play button click.
+   Loads local video on play button click.
    Hides thumbnail, shows player with autoplay.
-   Uses fade-in transition via CSS.
+   Play button hides when video starts.
    ======================================== */
 function initVideoPlayer() {
   const playBtn = document.querySelector('#play-btn');
   const videoThumbnail = document.querySelector('#video-thumbnail');
   const videoPlayer = document.querySelector('#video-player');
-  const ytIframe = document.querySelector('#yt-iframe');
+  const videoElement = document.querySelector('#video-element');
 
-  if (!playBtn || !videoThumbnail || !videoPlayer || !ytIframe) return;
-
-  const videoId = 'dQw4w9WgXcQ';
+  if (!playBtn || !videoThumbnail || !videoPlayer || !videoElement) return;
 
   playBtn.addEventListener('click', () => {
-    ytIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
     videoThumbnail.classList.add('hidden');
     videoPlayer.classList.remove('hidden');
+    playBtn.classList.add('hidden');
+    videoElement.play();
+  });
+
+  // Show play button when video ends or is paused
+  videoElement.addEventListener('ended', () => {
+    playBtn.classList.remove('hidden');
+  });
+
+  videoElement.addEventListener('pause', () => {
+    playBtn.classList.remove('hidden');
+  });
+
+  // Hide play button when video plays
+  videoElement.addEventListener('play', () => {
+    playBtn.classList.add('hidden');
   });
 }
 
