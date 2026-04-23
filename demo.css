@@ -718,7 +718,9 @@ a {
   font-size: 16px;
   font-weight: 800;
 }
-
+.footer-logo img {
+    height: 48px;
+}
 .footer-copy {
   font-size: 12px;
   color: var(--color-text-muted);
