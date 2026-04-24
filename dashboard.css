@@ -271,6 +271,29 @@ select {
     height: 18px;
 }
 
+/* Notification Badge */
+.notif-wrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+.notif-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #E24B4A;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
 /* User Avatar */
 .avatar {
     width: 36px;

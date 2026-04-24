@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAttachments();
   initCreateProjectForm();
   initSearch();
+  initNotifications();
 });
 
 // Task data store — used by openModal to populate the modal
@@ -128,22 +129,18 @@ function initTaskList() {
 
   if (taskRows) {
     taskRows.forEach(row => {
-      const checkbox = row.querySelector('.task-checkbox');
-
-      if (checkbox) {
-        checkbox.addEventListener('click', (e) => {
-          e.stopPropagation();
-          checkbox.classList.toggle('checked');
-          row.classList.toggle('task-done');
-        });
-      }
-
       row.addEventListener('click', (e) => {
-        if (!e.target.closest('.task-checkbox')) {
-          const taskId = row.getAttribute('data-task-id');
-          if (taskId) {
-            openModal(taskId);
-          }
+        const checkboxTarget = e.target.closest('.task-checkbox');
+        if (checkboxTarget) {
+          checkboxTarget.classList.toggle('checked');
+          row.classList.toggle('task-done');
+          return;
+        }
+
+        const taskId = row.dataset.taskId;
+        if (taskId) {
+          console.log('opening task: ' + taskId);
+          openModal(taskId);
         }
       });
 
@@ -300,11 +297,15 @@ function initDropdowns() {
       const dropdownId = select.getAttribute('data-open');
       if (!dropdownId) return;
 
-      select.addEventListener('click', () => {
-        closeAllDropdowns();
+      select.addEventListener('click', (e) => {
+        e.stopPropagation();
         const dropdown = document.getElementById(dropdownId);
         if (dropdown) {
-          dropdown.classList.add('open');
+          const shouldOpen = !dropdown.classList.contains('open');
+          closeAllDropdowns();
+          if (shouldOpen) {
+            dropdown.classList.add('open');
+          }
         }
       });
 
@@ -313,7 +314,8 @@ function initDropdowns() {
         const items = dropdown.querySelectorAll('li');
         if (items) {
           items.forEach(item => {
-            item.addEventListener('click', () => {
+            item.addEventListener('click', (e) => {
+              e.stopPropagation();
               const value = item.getAttribute('data-value');
 
               if (select.id === 'modal-status-btn') {
@@ -341,8 +343,7 @@ function initDropdowns() {
   }
 
   document.addEventListener('click', (e) => {
-    const isFieldSelect = e.target.closest('.field-select');
-    if (!isFieldSelect) {
+    if (!e.target.closest('.field-select')) {
       closeAllDropdowns();
     }
   });
@@ -454,28 +455,26 @@ function initCreateProjectForm() {
   const errName = document.getElementById('err-name');
   const errDate = document.getElementById('err-date');
   const errEmail = document.getElementById('err-email');
-  const formProgress = document.getElementById('form-progress');
   const btnCreateLg = document.querySelector('.btn-create-lg');
 
   if (!createProjectForm) return;
 
   // Helper function to update progress bar
   function updateProgress() {
-    if (!formProgress) return;
+    const progressFill = document.getElementById('form-progress');
+    if (!progressFill) return;
 
-    let filledCount = 0;
+    let filled = 0;
 
-    if (projName && projName.value.trim()) filledCount++;
-    if (projCategory && projCategory.value) filledCount++;
-    if (projStart && projStart.value) filledCount++;
-    if (projEnd && projEnd.value) filledCount++;
-    if (projDesc && projDesc.value.trim()) filledCount++;
+    if (projName && projName.value.trim() !== '') filled++;
+    if (projCategory && projCategory.value !== '') filled++;
+    if (projStart && projStart.value !== '') filled++;
+    if (projEnd && projEnd.value !== '') filled++;
+    if (projDesc && projDesc.value.trim() !== '') filled++;
+    if (document.querySelectorAll('#member-chips .chip').length > 0) filled++;
 
-    const chipCount = memberChips ? memberChips.querySelectorAll('.chip').length : 0;
-    if (chipCount > 0) filledCount++;
-
-    const progressPercent = (filledCount / 6) * 100;
-    formProgress.style.width = progressPercent + '%';
+    const percentage = Math.round(filled / 6 * 100);
+    document.getElementById('form-progress').style.width = percentage + '%';
   }
 
   // Attach progress bar update listeners
@@ -484,15 +483,15 @@ function initCreateProjectForm() {
   }
 
   if (projCategory) {
-    projCategory.addEventListener('change', updateProgress);
+    projCategory.addEventListener('input', updateProgress);
   }
 
   if (projStart) {
-    projStart.addEventListener('change', updateProgress);
+    projStart.addEventListener('input', updateProgress);
   }
 
   if (projEnd) {
-    projEnd.addEventListener('change', updateProgress);
+    projEnd.addEventListener('input', updateProgress);
   }
 
   if (projDesc) {
@@ -563,6 +562,19 @@ function initCreateProjectForm() {
     btnAddMember.addEventListener('click', addMember);
   }
 
+  if (memberChips) {
+    memberChips.addEventListener('click', (e) => {
+      const removeButton = e.target.closest('.chip-remove');
+      if (removeButton) {
+        const chip = removeButton.closest('.chip');
+        if (chip) {
+          chip.remove();
+          updateProgress();
+        }
+      }
+    });
+  }
+
   // Allow Enter key to add member
   if (inviteEmail) {
     inviteEmail.addEventListener('keypress', (e) => {
@@ -578,8 +590,8 @@ function initCreateProjectForm() {
     if (!projStart || !projEnd || !errDate) return;
 
     if (projStart.value && projEnd.value) {
-      const startDate = new Date(projStart.value);
-      const endDate = new Date(projEnd.value);
+      const startDate = new Date(projStart.value + 'T00:00:00');
+      const endDate = new Date(projEnd.value + 'T00:00:00');
 
       if (endDate < startDate) {
         if (errDate) {
@@ -670,8 +682,9 @@ function initCreateProjectForm() {
 
       // Reset form
       createProjectForm.reset();
-      if (formProgress) {
-        formProgress.style.width = '0%';
+      const progressFill = document.getElementById('form-progress');
+      if (progressFill) {
+        progressFill.style.width = '0%';
       }
       if (memberChips) {
         memberChips.innerHTML = '';
@@ -684,6 +697,8 @@ function initCreateProjectForm() {
       }
     }, 2000);
   });
+
+  updateProgress();
 }
 
 // Live search filter on task rows
@@ -712,4 +727,18 @@ function initSearch() {
       }
     });
   });
+}
+
+// Hides the notification badge when the notification button is clicked
+function initNotifications() {
+  const notifButton = document.getElementById('btn-notif');
+  const notifBadge = document.querySelector('.notif-badge');
+
+  if (notifButton) {
+    notifButton.addEventListener('click', () => {
+      if (notifBadge) {
+        notifBadge.style.display = 'none';
+      }
+    });
+  }
 }
