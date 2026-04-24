@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Build - Project Studio</title>
+
+    <!-- Google Fonts: Inter (400, 600, 700, 800) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Dashboard Styles -->
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <!-- Root Application Layout: Two-column grid (sidebar + main) -->
+    <div class="app-layout">
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside id="sidebar">
+
+            <!-- Brand Section -->
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <img src="./media/projexa.png" alt="">
+                </div>
+                <div>
+                    <span class="brand-name">Projexa</span>
+                    <span class="brand-sub">Project Executer</span>
+                </div>
+            </div>
+
+            <!-- Tier Badge -->
+            <div class="sidebar-tier">Enterprise Tier</div>
+
+            <!-- Navigation Menu -->
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item" data-page="dashboard">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </span>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item nav-item--active" data-page="projects">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                            </path>
+                        </svg>
+                    </span>
+                    Projects
+                </a>
+                <a href="#" class="nav-item" data-page="tasks">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    Tasks
+                </a>
+                <a href="#" class="nav-item" data-page="team">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </span>
+                    Team
+                </a>
+                <a href="#" class="nav-item" data-page="analytics">
+                    <span class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="2" x2="12" y2="22"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </span>
+                    Analytics
+                </a>
+            </nav>
+
+            <!-- Footer Navigation -->
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item" data-page="help">
+                    <span class="nav-icon">?</span>
+                    Help Center
+                </a>
+                <a href="#" class="nav-item" data-page="support">
+                    <span class="nav-icon">💬</span>
+                    Support
+                </a>
+            </div>
+
+            <!-- New Project Button -->
+            <button class="btn-new-project" id="btn-new-project">+ New Project</button>
+
+        </aside>
+
+        <!-- ===== MAIN CONTENT AREA ===== -->
+        <div id="main">
+
+            <!-- Top Navigation Bar -->
+            <div id="topbar">
+                <div class="topbar-inner">
+                    <!-- Logo/Brand in Topbar -->
+                    <span class="topbar-logo">Projexa</span>
+
+                    <!-- Search Bar -->
+                    <div class="topbar-search">
+                        <input type="search" placeholder="Search Projexa..." id="search-input" aria-label="Search">
+                    </div>
+
+                    <!-- Actions: Notifications, History, Help, Avatar -->
+                    <div class="topbar-actions">
+                        <button class="icon-btn" aria-label="Notifications" id="btn-notif">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                        </button>
+                        <button class="icon-btn" aria-label="History" id="btn-history">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </button>
+                        <button class="icon-btn" aria-label="Help">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                            </svg>
+                        </button>
+                        <div class="avatar" id="user-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23ddd'/%3E%3Ccircle cx='50' cy='35' r='20' fill='%23999'/%3E%3Cellipse cx='50' cy='75' rx='30' ry='25' fill='%23999'/%3E%3C/svg%3E"
+                                alt="User avatar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== PAGE CONTENT ===== -->
+            <div id="page-content">
+
+                <!-- Dashboard Page (hidden by default) -->
+                <div id="page-dashboard" class="page">
+                    <h2>Dashboard</h2>
+                </div>
+
+                <!-- Projects Page (active by default) -->
+                <div id="page-projects" class="page active-page">
+
+                    <!-- Project Header with Title and Member Avatars -->
+                    <div class="project-header">
+                        <div>
+                            <h1 class="project-title">Website Redesign Q3</h1>
+                            <p class="project-meta">Marketing Team · Active Sprint</p>
+                        </div>
+                        <div class="project-members">
+                            <div class="member-avatar"></div>
+                            <div class="member-avatar"></div>
+                            <div class="member-avatar"></div>
+                            <span class="member-more">+2</span>
+                        </div>
+                    </div>
+
+                    <!-- Task List -->
+                    <div class="task-list" id="task-list">
+                        <div class="task-row" data-task-id="1" tabindex="0">
+                            <span class="task-checkbox" data-task-id="1"></span>
+                            <span class="task-name">Finalize Dashboard Widget Layouts</span>
+                            <span class="task-badge" data-type="design">Design</span>
+                            <span class="task-assignee">Sarah Jenkins</span>
+                            <span class="task-date">Oct 24</span>
+                        </div>
+                        <div class="task-row" data-task-id="2" tabindex="0">
+                            <span class="task-checkbox" data-task-id="2"></span>
+                            <span class="task-name">Implement Authentication Flow</span>
+                            <span class="task-badge" data-type="dev">Dev</span>
+                            <span class="task-assignee">Marcus Chen</span>
+                            <span class="task-date">Oct 26</span>
+                        </div>
+                        <div class="task-row" data-task-id="3" tabindex="0">
+                            <span class="task-checkbox" data-task-id="3"></span>
+                            <span class="task-name">QA Sprint 4 User Flows</span>
+                            <span class="task-badge" data-type="qa">QA</span>
+                            <span class="task-assignee">Priya Nair</span>
+                            <span class="task-date">Oct 28</span>
+                        </div>
+                        <div class="task-row" data-task-id="4" tabindex="0">
+                            <span class="task-checkbox" data-task-id="4"></span>
+                            <span class="task-name">Write Release Notes v4.2</span>
+                            <span class="task-badge" data-type="content">Content</span>
+                            <span class="task-assignee">Tom Walsh</span>
+                            <span class="task-date">Oct 29</span>
+                        </div>
+                        <div class="task-row" data-task-id="5" tabindex="0">
+                            <span class="task-checkbox" data-task-id="5"></span>
+                            <span class="task-name">Design Review — Mobile Screens</span>
+                            <span class="task-badge" data-type="review">Review</span>
+                            <span class="task-assignee">Sarah Jenkins</span>
+                            <span class="task-date">Oct 30</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Tasks Page (hidden by default) -->
+                <div id="page-tasks" class="page">
+                    <h2>Tasks</h2>
+                </div>
+
+                <!-- Team Page (hidden by default) -->
+                <div id="page-team" class="page">
+                    <h2>Team</h2>
+                </div>
+
+                <!-- Analytics Page (hidden by default) -->
+                <div id="page-analytics" class="page">
+                    <h2>Analytics</h2>
+                </div>
+
+                <!-- Create Project Page (hidden by default) -->
+                <div id="page-create-project" class="page">
+                    <div class="create-project-inner">
+                        <h1>Create Project</h1>
+                        <p class="page-sub">Initialise a new enterprise workspace for your team.</p>
+
+                        <!-- Progress Bar -->
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="form-progress"></div>
+                        </div>
+
+                        <!-- Create Project Form -->
+                        <form id="create-project-form" novalidate>
+
+                            <!-- Project Name Field -->
+                            <div class="form-group">
+                                <label for="proj-name">PROJECT NAME</label>
+                                <input type="text" id="proj-name" placeholder="e.g. Apollo Mission 2024">
+                                <span class="field-error" id="err-name"></span>
+                            </div>
+
+                            <!-- Project Category, Start Date, End Date Row -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="proj-category">PROJECT CATEGORY</label>
+                                    <select id="proj-category">
+                                        <option>Development</option>
+                                        <option>Design</option>
+                                        <option>Marketing</option>
+                                        <option>Research</option>
+                                        <option>Operations</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="proj-start">START DATE</label>
+                                    <input type="date" id="proj-start">
+                                </div>
+                                <div class="form-group">
+                                    <label for="proj-end">END DATE</label>
+                                    <input type="date" id="proj-end">
+                                    <span class="field-error" id="err-date"></span>
+                                </div>
+                            </div>
+
+                            <!-- Description Field -->
+                            <div class="form-group">
+                                <label for="proj-desc">DESCRIPTION</label>
+                                <textarea id="proj-desc" rows="5"
+                                    placeholder="Describe the high-level objectives and scope..."></textarea>
+                            </div>
+
+                            <!-- Team Member Invitation -->
+                            <div class="form-group">
+                                <label>INVITE TEAM MEMBERS</label>
+                                <div class="invite-row">
+                                    <input type="email" id="invite-email" placeholder="colleague@enterprise.com">
+                                    <button type="button" class="btn-add-member" id="btn-add-member">+</button>
+                                </div>
+                                <span class="field-error" id="err-email"></span>
+
+                                <!-- Member Chips -->
+                                <div class="member-chips" id="member-chips">
+                                    <div class="chip" data-email="j.smith@build.com">
+                                        <div class="chip-avatar"></div>
+                                        <span>j.smith@build.com</span>
+                                        <button class="chip-remove" data-email="j.smith@build.com"
+                                            type="button">&times;</button>
+                                    </div>
+                                    <div class="chip" data-email="a.miller@build.com">
+                                        <div class="chip-avatar"></div>
+                                        <span>a.miller@build.com</span>
+                                        <button class="chip-remove" data-email="a.miller@build.com"
+                                            type="button">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="form-actions">
+                                <button type="button" class="btn-cancel-lg" id="btn-cancel-project">Cancel</button>
+                                <button type="submit" class="btn-create-lg">Create Project</button>
+                            </div>
+                        </form>
+
+                        <!-- Footer Note -->
+                        <p class="form-footer-note">Secure Enterprise Environment · Version 4.2.0-BUILD</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===== TASK DETAIL MODAL ===== -->
+    <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-card">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <span class="modal-badge" id="modal-badge">Design</span>
+                <span class="modal-date-added" id="modal-date-added">Added 2 days ago</span>
+                <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+            </div>
+
+            <!-- Modal Title -->
+            <h2 class="modal-title" id="modal-title"></h2>
+
+            <!-- Status, Assignee, Due Date Fields -->
+            <div class="modal-fields">
+                <div class="field-group">
+                    <label class="field-label">STATUS</label>
+                    <div class="field-select" id="modal-status-btn" data-open="status-dropdown">
+                        <span class="status-dot"></span>
+                        <span id="modal-status-text">In Progress</span>
+                        <span class="chevron">▾</span>
+                        <ul class="dropdown" id="status-dropdown" role="listbox">
+                            <li data-value="To Do">To Do</li>
+                            <li data-value="In Progress">In Progress</li>
+                            <li data-value="Done">Done</li>
+                            <li data-value="Blocked">Blocked</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">ASSIGNEE</label>
+                    <div class="field-select" id="modal-assignee-btn" data-open="assignee-dropdown">
+                        <div class="assignee-avatar" id="modal-assignee-avatar"></div>
+                        <span id="modal-assignee-text">Sarah Jenkins</span>
+                        <span class="chevron">▾</span>
+                        <ul class="dropdown" id="assignee-dropdown" role="listbox">
+                            <li data-value="Sarah Jenkins">Sarah Jenkins</li>
+                            <li data-value="Marcus Chen">Marcus Chen</li>
+                            <li data-value="Priya Nair">Priya Nair</li>
+                            <li data-value="Tom Walsh">Tom Walsh</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">DUE DATE</label>
+                    <div class="field-select" id="modal-due-btn">
+                        <span class="calendar-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <path d="M16 2v4"></path>
+                                <path d="M8 2v4"></path>
+                                <path d="M3 9h18"></path>
+                            </svg>
+                        </span>
+                        <span id="modal-due-text">Oct 24, 2023</span>
+                        <input type="date" id="modal-due-input" class="hidden-date-input" aria-hidden="true">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description Field -->
+            <div class="field-group">
+                <label class="field-label">DESCRIPTION</label>
+                <textarea class="modal-textarea" id="modal-description" rows="5"></textarea>
+            </div>
+
+            <!-- Attachments Section -->
+            <div class="modal-attachments">
+                <div class="attach-header">
+                    <span class="field-label">ATTACHMENTS</span>
+                    <button class="attach-add" id="attach-add-btn" type="button">+ Add File</button>
+                    <input type="file" id="attach-file-input" class="hidden" multiple aria-hidden="true">
+                </div>
+                <div class="attach-list" id="attach-list">
+                    <div class="attach-item">
+                        <div class="attach-icon">📄</div>
+                        <div>
+                            <div class="attach-name">dashboard-v2-final.png</div>
+                            <div class="attach-size">2.4 MB</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button class="btn-cancel" id="modal-cancel" type="button">Cancel</button>
+                <button class="btn-save" id="modal-save" type="button">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard JavaScript -->
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
