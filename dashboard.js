@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDatePicker();
   initAttachments();
   initCreateProjectForm();
+  initProjectOverview();
   initSearch();
   initNotifications();
 });
@@ -456,6 +457,7 @@ function initCreateProjectForm() {
   const errDate = document.getElementById('err-date');
   const errEmail = document.getElementById('err-email');
   const btnCreateLg = document.querySelector('.btn-create-lg');
+  const apiClient = window.ProjexaAPI;
 
   if (!createProjectForm) return;
 
@@ -621,7 +623,7 @@ function initCreateProjectForm() {
   }
 
   // Form submit handler
-  createProjectForm.addEventListener('submit', (e) => {
+  createProjectForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     let isValid = true;
@@ -651,54 +653,174 @@ function initCreateProjectForm() {
 
     if (!isValid) return;
 
-    // Show success state
+    if (!apiClient) {
+      if (errName) {
+        errName.textContent = 'Backend API is not available.';
+      }
+      return;
+    }
+
+    const memberEmails = memberChips
+      ? Array.from(memberChips.querySelectorAll('.chip')).map((chip) => chip.getAttribute('data-email')).filter(Boolean)
+      : [];
+
+    const projectPayload = {
+      name: projName ? projName.value.trim() : '',
+      category: projCategory ? projCategory.value : '',
+      startDate: projStart ? projStart.value : '',
+      endDate: projEnd ? projEnd.value : '',
+      description: projDesc ? projDesc.value.trim() : '',
+      members: memberEmails
+    };
+
+    const originalButtonLabel = btnCreateLg ? btnCreateLg.textContent : 'Create Project';
+
     if (btnCreateLg) {
-      btnCreateLg.textContent = 'Project Created!';
+      btnCreateLg.textContent = 'Saving...';
       btnCreateLg.disabled = true;
     }
 
-    setTimeout(() => {
-      // Navigate back to projects page
-      const projectsNavItem = document.querySelector('[data-page="projects"]');
-      const sidebarNavItems = document.querySelectorAll('#sidebar .nav-item');
+    try {
+      const token = sessionStorage.getItem('projexa.token');
+      await apiClient.request('/api/projects', {
+        method: 'POST',
+        headers: {
+          'Authorization': token ? `Bearer ${token}` : undefined
+        },
+        body: JSON.stringify(projectPayload)
+      });
 
-      if (sidebarNavItems) {
-        sidebarNavItems.forEach(item => item.classList.remove('nav-item--active'));
-      }
-
-      if (projectsNavItem) {
-        projectsNavItem.classList.add('nav-item--active');
-      }
-
-      const allPages = document.querySelectorAll('.page');
-      if (allPages) {
-        allPages.forEach(page => page.classList.remove('active-page'));
-      }
-
-      const projectsPage = document.getElementById('page-projects');
-      if (projectsPage) {
-        projectsPage.classList.add('active-page');
-      }
-
-      // Reset form
-      createProjectForm.reset();
-      const progressFill = document.getElementById('form-progress');
-      if (progressFill) {
-        progressFill.style.width = '0%';
-      }
-      if (memberChips) {
-        memberChips.innerHTML = '';
-      }
-
-      // Reset button
       if (btnCreateLg) {
-        btnCreateLg.textContent = 'Create Project';
+        btnCreateLg.textContent = 'Project Created!';
+      }
+
+      setTimeout(() => {
+        // Navigate back to projects page
+        const projectsNavItem = document.querySelector('[data-page="projects"]');
+        const sidebarNavItems = document.querySelectorAll('#sidebar .nav-item');
+
+        if (sidebarNavItems) {
+          sidebarNavItems.forEach(item => item.classList.remove('nav-item--active'));
+        }
+
+        if (projectsNavItem) {
+          projectsNavItem.classList.add('nav-item--active');
+        }
+
+        const allPages = document.querySelectorAll('.page');
+        if (allPages) {
+          allPages.forEach(page => page.classList.remove('active-page'));
+        }
+
+        const projectsPage = document.getElementById('page-projects');
+        if (projectsPage) {
+          projectsPage.classList.add('active-page');
+        }
+
+        // Reset form
+        createProjectForm.reset();
+        const progressFill = document.getElementById('form-progress');
+        if (progressFill) {
+          progressFill.style.width = '0%';
+        }
+        if (memberChips) {
+          memberChips.innerHTML = '';
+        }
+
+        // Reset button
+        if (btnCreateLg) {
+          btnCreateLg.textContent = originalButtonLabel;
+          btnCreateLg.disabled = false;
+        }
+      }, 1200);
+    } catch (error) {
+      if (errName) {
+        errName.textContent = error.message || 'Unable to save the project right now.';
+      }
+
+      if (btnCreateLg) {
+        btnCreateLg.textContent = originalButtonLabel;
         btnCreateLg.disabled = false;
       }
-    }, 2000);
+    }
   });
 
   updateProgress();
+}
+
+// Renders all projects from the backend into the projects page
+function initProjectOverview() {
+  const apiClient = window.ProjexaAPI;
+  const projectTitle = document.querySelector('.project-title');
+  const projectMeta = document.querySelector('.project-meta');
+
+  if (!apiClient || !projectTitle || !projectMeta) return;
+
+  apiClient.request('/api/projects')
+    .then((response) => {
+      if (!response || !Array.isArray(response.projects) || response.projects.length === 0) {
+        projectTitle.textContent = 'No Projects Yet';
+        projectMeta.textContent = 'Create your first project to get started';
+        return;
+      }
+
+      const latestProject = response.projects[0];
+      projectTitle.textContent = latestProject.name || projectTitle.textContent;
+
+      const memberCount = Array.isArray(latestProject.members) ? latestProject.members.length : 0;
+      const category = latestProject.category ? latestProject.category.toUpperCase() : 'Saved Project';
+      projectMeta.textContent = memberCount > 0 ? `${category} · ${memberCount} member${memberCount === 1 ? '' : 's'}` : category;
+
+      // Render all projects list
+      const pageProjects = document.getElementById('page-projects');
+      let projectsList = document.getElementById('projects-list-container');
+      
+      if (!projectsList && pageProjects) {
+        projectsList = document.createElement('div');
+        projectsList.id = 'projects-list-container';
+        projectsList.style.cssText = 'margin-bottom: 30px;';
+        const projectHeader = pageProjects.querySelector('.project-header');
+        if (projectHeader) {
+          projectHeader.parentNode.insertBefore(projectsList, projectHeader);
+        }
+      }
+
+      if (projectsList) {
+        projectsList.innerHTML = '<h3 style="margin-bottom: 15px; font-size: 14px; font-weight: 600; text-transform: uppercase; color: #666;">All Projects</h3>';
+        const listContainer = document.createElement('div');
+        listContainer.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;';
+        
+        response.projects.forEach((project) => {
+          const card = document.createElement('div');
+          card.style.cssText = 'padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; cursor: pointer; transition: all 0.2s;';
+          card.onmouseover = () => card.style.cssText += 'background: #f0f0f0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);';
+          card.onmouseout = () => card.style.cssText = 'padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; cursor: pointer; transition: all 0.2s;';
+          
+          const memberCount = Array.isArray(project.members) ? project.members.length : 0;
+          const startDate = project.startDate ? new Date(project.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '-';
+          const endDate = project.endDate ? new Date(project.endDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '-';
+          
+          card.innerHTML = `
+            <div style="margin-bottom: 10px;">
+              <h4 style="margin: 0 0 5px 0; font-size: 15px; font-weight: 600; color: #222;">${project.name}</h4>
+              <p style="margin: 0; font-size: 12px; color: #666;">${project.category || 'Project'}</p>
+            </div>
+            <div style="font-size: 12px; color: #666; margin-bottom: 10px;">
+              <div>${startDate} → ${endDate}</div>
+              <div>${memberCount} member${memberCount === 1 ? '' : 's'}</div>
+            </div>
+            ${project.description ? `<p style="margin: 0; font-size: 12px; color: #666; line-height: 1.4;">${project.description.substring(0, 100)}${project.description.length > 100 ? '...' : ''}</p>` : ''}
+          `;
+          
+          listContainer.appendChild(card);
+        });
+        
+        projectsList.appendChild(listContainer);
+      }
+    })
+    .catch(() => {
+      // Keep the default header if the backend is unavailable.
+    });
 }
 
 // Live search filter on task rows
