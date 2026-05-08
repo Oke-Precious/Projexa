@@ -1,6 +1,13 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Check if user is authenticated
+  const token = sessionStorage.getItem('projexa.token');
+  if (!token) {
+    window.location.href = './signin.html';
+    return;
+  }
+
   initSidebarNav();
   initTaskList();
   initModal();
@@ -757,7 +764,11 @@ function initProjectOverview() {
 
   if (!apiClient || !projectTitle || !projectMeta) return;
 
-  apiClient.request('/api/projects')
+  apiClient.request('/api/projects', {
+    headers: {
+      'Authorization': `Bearer ${sessionStorage.getItem('projexa.token')}`
+    }
+  })
     .then((response) => {
       if (!response || !Array.isArray(response.projects) || response.projects.length === 0) {
         projectTitle.textContent = 'No Projects Yet';
@@ -819,8 +830,10 @@ function initProjectOverview() {
         projectsList.appendChild(listContainer);
       }
     })
-    .catch(() => {
-      // Keep the default header if the backend is unavailable.
+    .catch((error) => {
+      console.error('Failed to load projects:', error);
+      projectTitle.textContent = 'Error Loading Projects';
+      projectMeta.textContent = 'Please try refreshing the page';
     });
 }
 

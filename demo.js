@@ -1,6 +1,13 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Check if user is authenticated - redirect to dashboard
+  const token = sessionStorage.getItem('projexa.token');
+  if (token) {
+    window.location.href = './dashboard.html';
+    return;
+  }
+
   initNavbar();
   initMobileMenu();
   initVideoPlayer();
@@ -8,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initJourneyReveal();
   initPresencePulse();
   initCTAButtons();
+  initNavButtons();
 });
 
 /* ========================================
@@ -252,4 +260,27 @@ function initCTAButtons() {
       window.location.href = 'mailto:sales@masterbuild.io';
     });
   }
+}
+
+/* ========================================
+   Initialize navigation buttons
+   ======================================== */
+function initNavButtons() {
+  document.querySelectorAll('.btn-primary').forEach(btn => {
+    if (btn.textContent.includes('Get Started') || btn.textContent.includes('Start Your')) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = './signup.html';
+      });
+    }
+  });
+
+  document.querySelectorAll('.btn-ghost').forEach(btn => {
+    if (btn.textContent.includes('Log In')) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = './signin.html';
+      });
+    }
+  });
 }

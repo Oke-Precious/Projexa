@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Projexa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #eff4ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4648d4 0%, #6b38d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #0b1c30;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 16px;
+            color: #464554;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        a, button {
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4648d4 0%, #6063ee 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(70, 72, 212, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(70, 72, 212, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4648d4;
+            border: 2px solid #4648d4;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f0f0;
+        }
+
+        .illustration {
+            margin: 40px 0;
+            opacity: 0.8;
+        }
+
+        .illustration svg {
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="error-code">404</div>
+        
+        <h1>Page Not Found</h1>
+        
+        <p>Sorry, we couldn't find the page you're looking for. It might have been moved or deleted.</p>
+
+        <div class="illustration">
+            <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" stroke="#d3e4fe" stroke-width="2"/>
+                <path d="M70 80 L130 80 M70 100 L130 100 M70 120 L130 120" stroke="#4648d4" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="85" cy="140" r="8" fill="#4648d4"/>
+                <circle cx="115" cy="140" r="8" fill="#4648d4"/>
+            </svg>
+        </div>
+
+        <div class="button-group">
+            <a href="./index.html" class="btn-primary">Go Home</a>
+            <a href="./dashboard.html" class="btn-secondary">Go to Dashboard</a>
+        </div>
+    </div>
+</body>
+
+</html>

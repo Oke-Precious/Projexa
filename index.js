@@ -1,5 +1,11 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Check if user is already authenticated - redirect to dashboard
+    const token = sessionStorage.getItem('projexa.token');
+    if (token) {
+        window.location.href = './dashboard.html';
+        return;
+    }
     
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -37,22 +43,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Smooth scrolling for buttons that navigate
+    // Handle all buttons on page
     document.querySelectorAll('.btn').forEach(button => {
         button.addEventListener('click', function(e) {
             const text = this.textContent.trim();
             
             if (text.includes('Get Started') || text.includes('Start Your Trial')) {
                 e.preventDefault();
-                const featuresSection = document.querySelector('#features');
-                if (featuresSection) {
-                    featuresSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-                console.log('Get Started clicked');
+                window.location.href = './signup.html';
             } else if (text.includes('Log In')) {
-                console.log('Log In clicked');
+                e.preventDefault();
+                window.location.href = './signin.html';
             } else if (text.includes('Contact Sales')) {
-                console.log('Contact Sales clicked');
+                e.preventDefault();
+                window.alert('Sales contact form coming soon!');
+            } else if (text.includes('Watch Demo')) {
+                e.preventDefault();
+                window.location.href = './demo.html';
             }
         });
     });
