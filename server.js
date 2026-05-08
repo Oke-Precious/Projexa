@@ -409,6 +409,244 @@ async function handleCreateProject(req, res) {
   }
 }
 
+async function handleGetProjectById(req, res, projectId) {
+  try {
+    const result = db.exec('SELECT id, name, category, startDate, endDate, description, members, createdAt FROM projects WHERE id = ?', [projectId]);
+    
+    if (result.length === 0 || result[0].values.length === 0) {
+      sendError(res, 404, 'Project not found.');
+      return;
+    }
+
+    const row = result[0].values[0];
+    const project = {
+      id: row[0],
+      name: row[1],
+      category: row[2],
+      startDate: row[3],
+      endDate: row[4],
+      description: row[5],
+      members: row[6] ? JSON.parse(row[6]) : [],
+      createdAt: row[7]
+    };
+
+    sendJson(res, 200, { project });
+  } catch (error) {
+    console.error(error);
+    sendError(res, 500, 'Internal server error.');
+  }
+}
+
+async function handleUpdateProject(req, res, projectId) {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace('Bearer ', '');
+  const payload = verifyToken(token);
+
+  if (!payload) {
+    sendError(res, 401, 'Unauthorized. Please sign in first.');
+    return;
+  }
+
+  const name = String(req.body.name || '').trim();
+  const category = String(req.body.category || '').trim();
+  const startDate = String(req.body.startDate || '').trim();
+  const endDate = String(req.body.endDate || '').trim();
+  const description = String(req.body.description || '').trim();
+  const members = Array.isArray(req.body.members)
+    ? req.body.members.map((member) => String(member || '').trim()).filter(Boolean)
+    : [];
+
+  if (!name) {
+    sendError(res, 400, 'Project name is required.');
+    return;
+  }
+
+  if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
+    sendError(res, 400, 'End date must be after start date.');
+    return;
+  }
+
+  try {
+    const membersJson = JSON.stringify(members);
+    db.run(
+      'UPDATE projects SET name = ?, category = ?, startDate = ?, endDate = ?, description = ?, members = ? WHERE id = ?',
+      [name, category, startDate, endDate, description, membersJson, projectId]
+    );
+
+    await persistDatabase();
+
+    sendJson(res, 200, {
+      message: 'Project updated successfully.',
+      project: {
+        id: projectId,
+        name,
+        category,
+        startDate,
+        endDate,
+        description,
+        members
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    sendError(res, 500, 'Internal server error.');
+  }
+}
+
+async function handleDeleteProject(req, res, projectId) {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace('Bearer ', '');
+  const payload = verifyToken(token);
+
+  if (!payload) {
+    sendError(res, 401, 'Unauthorized. Please sign in first.');
+    return;
+  }
+
+  try {
+    db.run('DELETE FROM projects WHERE id = ?', [projectId]);
+    await persistDatabase();
+
+    sendJson(res, 200, {
+      message: 'Project deleted successfully.'
+    });
+  } catch (error) {
+    console.error(error);
+    sendError(res, 500, 'Internal server error.');
+  }
+}
+
+async function handleGetCurrentUser(req, res) {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace('Bearer ', '');
+  const payload = verifyToken(token);
+
+  if (!payload) {
+    sendError(res, 401, 'Unauthorized. Please sign in first.');
+    return;
+  }
+
+  try {
+    const result = db.exec('SELECT id, fullName, email, createdAt FROM users WHERE id = ?', [payload.userId]);
+    
+    if (result.length === 0 || result[0].values.length === 0) {
+      sendError(res, 404, 'User not found.');
+      return;
+    }
+
+    const row = result[0].values[0];
+    const user = {
+      id: row[0],
+      fullName: row[1],
+      email: row[2],
+      createdAt: row[3]
+    };
+
+    sendJson(res, 200, { user });
+  } catch (error) {
+    console.error(error);
+    sendError(res, 500, 'Internal server error.');
+  }
+}
+
+async function handleUpdateProfile(req, res) {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace('Bearer ', '');
+  const payload = verifyToken(token);
+
+  if (!payload) {
+    sendError(res, 401, 'Unauthorized. Please sign in first.');
+    return;
+  }
+
+  const fullName = String(req.body.fullName || '').trim();
+  const email = normalizeEmail(req.body.email);
+
+  if (!fullName) {
+    sendError(res, 400, 'Full name is required.');
+    return;
+  }
+
+  if (!email) {
+    sendError(res, 400, 'Email is required.');
+    return;
+  }
+
+  try {
+    // Get current user to check current email
+    const userResult = db.exec('SELECT email FROM users WHERE id = ?', [payload.userId]);
+    const currentEmail = userResult.length > 0 && userResult[0].values.length > 0 ? userResult[0].values[0][0] : null;
+
+    // Check if new email is already taken by another user
+    if (email !== currentEmail) {
+      const existing = db.exec('SELECT id FROM users WHERE email = ? AND id != ?', [email, payload.userId]);
+      if (existing.length > 0 && existing[0].values.length > 0) {
+        sendError(res, 409, 'Email is already in use.');
+        return;
+      }
+    }
+
+    db.run(
+      'UPDATE users SET fullName = ?, email = ? WHERE id = ?',
+      [fullName, email, payload.userId]
+    );
+
+    await persistDatabase();
+
+    sendJson(res, 200, {
+      message: 'Profile updated successfully.',
+      user: {
+        id: payload.userId,
+        fullName,
+        email
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    sendError(res, 500, 'Internal server error.');
+  }
+}
+
+async function handleVerifyToken(req, res) {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace('Bearer ', '');
+  const payload = verifyToken(token);
+
+  if (!payload) {
+    sendError(res, 401, 'Invalid or expired token.');
+    return;
+  }
+
+  sendJson(res, 200, {
+    valid: true,
+    payload
+  });
+}
+
+async function handleDeleteAccount(req, res) {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace('Bearer ', '');
+  const payload = verifyToken(token);
+
+  if (!payload) {
+    sendError(res, 401, 'Unauthorized. Please sign in first.');
+    return;
+  }
+
+  try {
+    db.run('DELETE FROM users WHERE id = ?', [payload.userId]);
+    db.run('DELETE FROM projects WHERE id IN (SELECT id FROM projects)');
+    await persistDatabase();
+
+    sendJson(res, 200, {
+      message: 'Account deleted successfully.'
+    });
+  } catch (error) {
+    console.error(error);
+    sendError(res, 500, 'Internal server error.');
+  }
+}
+
 async function startServer() {
   console.log('Initializing database...');
   await initDatabase();
@@ -418,6 +656,17 @@ async function startServer() {
     const requestUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
     const pathname = requestUrl.pathname;
 
+    // Add CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    if (req.method === 'OPTIONS') {
+      res.writeHead(200);
+      res.end();
+      return;
+    }
+
     try {
       if (req.method === 'GET' && pathname === '/api/health') {
         sendJson(res, 200, { ok: true });
@@ -426,6 +675,25 @@ async function startServer() {
 
       if (req.method === 'GET' && pathname === '/api/projects') {
         await handleGetProjects(req, res);
+        return;
+      }
+
+      if (req.method === 'GET' && pathname.match(/^\/api\/projects\/[a-f0-9-]+$/)) {
+        const projectId = pathname.split('/').pop();
+        await handleGetProjectById(req, res, projectId);
+        return;
+      }
+
+      if (req.method === 'PUT' && pathname.match(/^\/api\/projects\/[a-f0-9-]+$/)) {
+        req.body = await readRequestBody(req);
+        const projectId = pathname.split('/').pop();
+        await handleUpdateProject(req, res, projectId);
+        return;
+      }
+
+      if (req.method === 'DELETE' && pathname.match(/^\/api\/projects\/[a-f0-9-]+$/)) {
+        const projectId = pathname.split('/').pop();
+        await handleDeleteProject(req, res, projectId);
         return;
       }
 
@@ -444,6 +712,27 @@ async function startServer() {
       if (req.method === 'POST' && pathname === '/api/auth/reset-password') {
         req.body = await readRequestBody(req);
         await handleResetPassword(req, res);
+        return;
+      }
+
+      if (req.method === 'GET' && pathname === '/api/auth/me') {
+        await handleGetCurrentUser(req, res);
+        return;
+      }
+
+      if (req.method === 'PUT' && pathname === '/api/auth/update-profile') {
+        req.body = await readRequestBody(req);
+        await handleUpdateProfile(req, res);
+        return;
+      }
+
+      if (req.method === 'GET' && pathname === '/api/auth/verify-token') {
+        await handleVerifyToken(req, res);
+        return;
+      }
+
+      if (req.method === 'DELETE' && pathname === '/api/auth/account') {
+        await handleDeleteAccount(req, res);
         return;
       }
 

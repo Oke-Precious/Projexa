@@ -164,3 +164,27 @@ function initResetPasswordForm() {
     }
   });
 }
+
+function logout() {
+  sessionStorage.removeItem('projexa.token');
+  sessionStorage.removeItem('projexa.user');
+  window.location.href = './index.html';
+}
+
+function getCurrentUser() {
+  const userJson = sessionStorage.getItem('projexa.user');
+  if (!userJson) return null;
+  try {
+    return JSON.parse(userJson);
+  } catch {
+    return null;
+  }
+}
+
+function getToken() {
+  return sessionStorage.getItem('projexa.token');
+}
+
+function isAuthenticated() {
+  return !!getToken();
+}

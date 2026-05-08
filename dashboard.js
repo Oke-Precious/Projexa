@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProjectOverview();
   initSearch();
   initNotifications();
+  initUserMenu();
 });
 
 // Task data store — used by openModal to populate the modal
@@ -860,6 +861,64 @@ function initNotifications() {
     notifButton.addEventListener('click', () => {
       if (notifBadge) {
         notifBadge.style.display = 'none';
+      }
+    });
+  }
+}
+
+// Initializes user menu with logout functionality
+function initUserMenu() {
+  const userAvatar = document.getElementById('user-avatar');
+  if (!userAvatar) return;
+
+  // Create a user menu popup
+  const menu = document.createElement('div');
+  menu.style.cssText = `
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: none;
+  `;
+
+  const user = getCurrentUser && getCurrentUser();
+  const userName = user && user.fullName ? user.fullName : 'User';
+  const userEmail = user && user.email ? user.email : '';
+
+  menu.innerHTML = `
+    <div style="padding: 12px 16px; border-bottom: 1px solid #eee;">
+      <p style="margin: 0; font-weight: 600; font-size: 14px;">${userName}</p>
+      <p style="margin: 4px 0 0; font-size: 12px; color: #666;">${userEmail}</p>
+    </div>
+    <button id="logout-btn" style="width: 100%; padding: 10px 16px; border: none; background: none; text-align: left; cursor: pointer; font-size: 14px; color: #d32f2f; border-radius: 0 0 8px 8px; transition: background-color 0.2s;">
+      Sign Out
+    </button>
+  `;
+
+  userAvatar.parentNode.style.position = 'relative';
+  userAvatar.parentNode.appendChild(menu);
+
+  userAvatar.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!userAvatar.contains(e.target) && !menu.contains(e.target)) {
+      menu.style.display = 'none';
+    }
+  });
+
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      if (logout) {
+        logout();
       }
     });
   }
