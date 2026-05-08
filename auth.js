@@ -77,8 +77,19 @@ function initSignUpForm() {
   const fullNameInput = form.querySelector('#fullName');
   const emailInput = form.querySelector('#email');
   const passwordInput = form.querySelector('#password');
+  const passwordToggle = form.querySelector('#passwordToggle');
   const termsInput = form.querySelector('#terms');
   const submitButton = form.querySelector('button[type="submit"]');
+
+  if (passwordToggle && passwordInput) {
+    passwordToggle.addEventListener('click', (event) => {
+      event.preventDefault();
+      const isPassword = passwordInput.type === 'password';
+      passwordInput.type = isPassword ? 'text' : 'password';
+      const icon = passwordToggle.querySelector('.material-symbols-outlined');
+      icon.textContent = isPassword ? 'visibility' : 'visibility_off';
+    });
+  }
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();

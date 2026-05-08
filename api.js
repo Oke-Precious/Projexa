@@ -1,8 +1,11 @@
 'use strict';
 
 (function attachProjexaApi(windowObject) {
+  const API_BASE_URL = 'http://localhost:3000';
+  
   async function request(path, options = {}) {
-    const response = await fetch(path, {
+    const url = path.startsWith('http') ? path : API_BASE_URL + path;
+    const response = await fetch(url, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
