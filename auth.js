@@ -38,6 +38,8 @@ function initSignInForm() {
   const passwordInput = form.querySelector('#password');
   const passwordToggle = form.querySelector('#passwordToggle');
   const submitButton = form.querySelector('button[type="submit"]');
+  const errorAlert = form.querySelector('#errorAlert');
+  const errorMessage = form.querySelector('#errorMessage');
 
   if (passwordToggle && passwordInput) {
     passwordToggle.addEventListener('click', (event) => {
@@ -48,6 +50,17 @@ function initSignInForm() {
       icon.textContent = isPassword ? 'visibility' : 'visibility_off';
     });
   }
+
+  // Hide error alert when user starts typing
+  [emailInput, passwordInput].forEach((input) => {
+    if (input) {
+      input.addEventListener('input', () => {
+        if (errorAlert) {
+          errorAlert.classList.add('hidden');
+        }
+      });
+    }
+  });
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -75,7 +88,12 @@ function initSignInForm() {
       }
       window.location.href = './dashboard.html';
     } catch (error) {
-      window.alert(error.message);
+      if (errorMessage) {
+        errorMessage.textContent = error.message;
+      }
+      if (errorAlert) {
+        errorAlert.classList.remove('hidden');
+      }
       setButtonState(submitButton, false, 'Signing in...', originalLabel);
     }
   });
@@ -131,13 +149,31 @@ function initSignUpForm() {
       if (response.token) {
         sessionStorage.setItem('projexa.token', response.token);
       }
-      window.alert(response.message || 'Account created successfully.');
-      window.location.href = './signin.html';
+      
+      // Show success modal instead of alert
+      showSuccessModal(() => {
+        window.location.href = './signin.html';
+      });
     } catch (error) {
       window.alert(error.message);
       setButtonState(submitButton, false, 'Creating account...', originalLabel);
     }
   });
+}
+
+function showSuccessModal(callback) {
+  const modal = document.getElementById('successModal');
+  if (!modal) return;
+
+  modal.classList.remove('hidden');
+  
+  // Redirect after 2.5 seconds (duration of progress animation)
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    if (callback) {
+      callback();
+    }
+  }, 2500);
 }
 
 function initResetPasswordForm() {

@@ -144,6 +144,16 @@
             </div>
             <!-- Form -->
             <form action="#" class="space-y-5" method="POST">
+                <!-- Error Alert -->
+                <div id="errorAlert" class="hidden rounded-xl bg-error-container/20 border border-error/30 p-4 animate-in fade-in duration-200">
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-error text-[20px] flex-shrink-0 mt-0.5">error</span>
+                        <div>
+                            <p class="font-headline font-semibold text-error text-[0.875rem]">Sign In Failed</p>
+                            <p id="errorMessage" class="font-body text-error/80 text-[0.8125rem] mt-1"></p>
+                        </div>
+                    </div>
+                </div>
                 <!-- Email Input -->
                 <div class="space-y-1.5">
                     <label

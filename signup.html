@@ -227,6 +227,63 @@
         </div>
     </main>
 
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 flex items-center justify-center p-4 z-50 hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative bg-surface-container-lowest rounded-2xl shadow-2xl p-8 max-w-sm w-full animate-in zoom-in-95 fade-in duration-300 scale-100">
+            <!-- Success Icon -->
+            <div class="flex justify-center mb-6">
+                <div class="relative">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center animate-in scale-100 duration-500 fill-mode-both">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div class="text-center">
+                <h2 class="font-headline text-[1.5rem] font-bold text-on-surface mb-2">Account Created Successfully!</h2>
+                <p class="font-body text-[0.875rem] text-on-surface-variant mb-8">Your account is ready. You'll be redirected to the sign in page in a moment.</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full h-1 bg-surface-variant rounded-full overflow-hidden">
+                <div id="successProgress" class="h-full bg-gradient-to-r from-primary to-primary-container animate-pulse" style="animation: fillProgress 2.5s ease-in-out forwards;"></div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes fillProgress {
+            from {
+                width: 0%;
+            }
+            to {
+                width: 100%;
+            }
+        }
+        
+        .animate-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+
     <script src="api.js"></script>
     <script src="auth.js"></script>
 </body>

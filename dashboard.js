@@ -254,6 +254,8 @@ function openModal(taskId) {
 function initModal() {
   const modalClose = document.getElementById('modal-close');
   const modalCancel = document.getElementById('modal-cancel');
+  const modalSave = document.getElementById('modal-save');
+  const modalDelete = document.getElementById('modal-delete');
   const modalOverlay = document.getElementById('modal-overlay');
 
   if (modalClose) {
@@ -262,6 +264,14 @@ function initModal() {
 
   if (modalCancel) {
     modalCancel.addEventListener('click', closeModal);
+  }
+
+  if (modalSave) {
+    modalSave.addEventListener('click', saveModalChanges);
+  }
+
+  if (modalDelete) {
+    modalDelete.addEventListener('click', deleteTask);
   }
 
   if (modalOverlay) {
@@ -280,6 +290,76 @@ function initModal() {
       }
     }
   });
+}
+
+async function saveModalChanges() {
+  if (!currentTaskId) return;
+  
+  const modalTitle = document.getElementById('modal-title');
+  const modalDescription = document.getElementById('modal-description');
+  const modalStatusText = document.getElementById('modal-status-text');
+  const modalAssigneeText = document.getElementById('modal-assignee-text');
+  const modalDueText = document.getElementById('modal-due-text');
+
+  if (!modalTitle || !modalStatusText) return;
+
+  // Update local task data
+  TASKS[currentTaskId] = {
+    ...TASKS[currentTaskId],
+    title: modalTitle.textContent,
+    description: modalDescription ? modalDescription.value : '',
+    status: modalStatusText.textContent,
+    assignee: modalAssigneeText ? modalAssigneeText.textContent : '',
+    due: modalDueText ? modalDueText.textContent : ''
+  };
+
+  alert('Changes saved successfully!');
+  closeModal();
+}
+
+async function deleteTask() {
+  if (!currentTaskId) return;
+  
+  if (!confirm('Are you sure you want to delete this task?')) return;
+
+  const taskRow = document.querySelector(`[data-task-id="${currentTaskId}"]`);
+  if (taskRow) {
+    taskRow.style.opacity = '0.5';
+    taskRow.style.pointerEvents = 'none';
+  }
+
+  delete TASKS[currentTaskId];
+  alert('Task deleted successfully!');
+  closeModal();
+  
+  // Refresh task list
+  const taskList = document.getElementById('task-list');
+  if (taskList) {
+    taskList.innerHTML = '';
+    Object.keys(TASKS).forEach(taskId => {
+      const task = TASKS[taskId];
+      const row = document.createElement('div');
+      row.className = 'task-row';
+      row.setAttribute('data-task-id', taskId);
+      row.tabIndex = 0;
+      row.innerHTML = `
+        <span class="task-checkbox" data-task-id="${taskId}"></span>
+        <span class="task-name">${task.title}</span>
+        <span class="task-badge" data-type="${task.type}">${task.type.charAt(0).toUpperCase() + task.type.slice(1)}</span>
+        <span class="task-assignee">${task.assignee}</span>
+        <span class="task-date">${task.due}</span>
+      `;
+      row.addEventListener('click', (e) => {
+        if (e.target.closest('.task-checkbox')) {
+          e.target.closest('.task-checkbox').classList.toggle('checked');
+          row.classList.toggle('task-done');
+          return;
+        }
+        openModal(taskId);
+      });
+      taskList.appendChild(row);
+    });
+  }
 }
 
 // Closes the modal with animation
@@ -703,6 +783,11 @@ function initCreateProjectForm() {
       }
 
       setTimeout(() => {
+        // Reload projects list
+        if (window.loadProjects) {
+          window.loadProjects();
+        }
+
         // Navigate back to projects page
         const projectsNavItem = document.querySelector('[data-page="projects"]');
         const sidebarNavItems = document.querySelectorAll('#sidebar .nav-item');
@@ -756,8 +841,8 @@ function initCreateProjectForm() {
   updateProgress();
 }
 
-// Renders all projects from the backend into the projects page
-function initProjectOverview() {
+// Store the loadProjects function globally so it can be called after project creation
+window.loadProjects = function() {
   const apiClient = window.ProjexaAPI;
   const projectTitle = document.querySelector('.project-title');
   const projectMeta = document.querySelector('.project-meta');
@@ -835,6 +920,11 @@ function initProjectOverview() {
       projectTitle.textContent = 'Error Loading Projects';
       projectMeta.textContent = 'Please try refreshing the page';
     });
+};
+
+// Initialize the projects overview on page load
+function initProjectOverview() {
+  window.loadProjects();
 }
 
 // Live search filter on task rows
